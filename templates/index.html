@@ -1,29 +1,49 @@
+<!DOCTYPE html>
 <html>
-  <style>
-    body{ 
-      font-size: 15pt;
-      font-family: arial;
-    }
-  </style>
-
-
-<body>
-  <h1>Some famous Computer Scientists</h1>
-  <div>{{data}}</div>
-
-  <div>
-    {% for n in data %}
-    <div>{{n}}</div>
-    {% endfor %}
-  </div>
-
-<p><a href="another">Go to the other page</a></p>
-
-<form method="POST" action="/add">
-<p>Name of new computer scientist: <input type="text" name="name"> <input type="submit" value="Add"></p>
-</form>
-
-</body>
-
-
+  <head>
+    <title>My Movie List</title>
+    <style>
+      body {
+        font-size: 15pt;
+        font-family: Arial, sans-serif;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+      th {
+        background-color: #4CAF50;
+        color: white;
+      }
+      tr:hover {
+        background-color: #f5f5f5;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>My Movie List</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Movie Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for movie in movies %}
+        <tr>
+          <td>{{ movie.name }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <br>
+    <a href="/"><button>Home</button></a>
+    <a href="/books"><button>Books</button></a>
+    <a href="/music"><button>Music</button></a>
+  </body>
 </html>
