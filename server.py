@@ -46,17 +46,17 @@ engine = create_engine(DATABASEURI)
 # Note that this will probably not work if you already have a table named 'test' in your database, containing meaningful data. This is only an example showing you how to run queries in your database using SQLAlchemy.
 #
 with engine.connect() as conn:
-	create_table_command = """
-	CREATE TABLE IF NOT EXISTS book(
-		id author,
+    create_table_command = """
+	CREATE TABLE IF NOT EXISTS test (
+		id serial,
 		name text
 	)
 	"""
-	res = conn.execute(text(create_table_command))
-	insert_table_command = """INSERT INTO test(name) VALUES ('book1'), ('book2'), ('book3')"""
-	res = conn.execute(text(insert_table_command))
-	# you need to commit for create, insert, update queries to reflect
-	conn.commit()
+    res = conn.execute(text(create_table_command))
+    insert_table_command = """INSERT INTO test(name) VALUES ('grace hopper'), ('alan turing'), ('ada lovelace')"""
+    res = conn.execute(text(insert_table_command))
+    # you need to commit for create, insert, update queries to reflect
+    conn.commit()
 
 
 @app.before_request
