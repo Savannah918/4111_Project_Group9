@@ -30,7 +30,7 @@ app = Flask(__name__, template_folder=tmpl_dir)
 #     DATABASEURI = "postgresql://zy2431:123123@34.73.36.248/project1"
 #
 # Modify these with your own credentials you received from TA!
-DATABASE_USERNAME = "xt2267"
+DATABASE_USERNAME = "xt2276"
 DATABASE_PASSWRD = "2097"
 DATABASE_HOST = "34.148.107.47" # change to 34.28.53.86 if you used database 2 for part 2
 DATABASEURI = f"postgresql://{DATABASE_USERNAME}:{DATABASE_PASSWRD}@{DATABASE_HOST}/project1"
@@ -46,17 +46,17 @@ engine = create_engine(DATABASEURI)
 # Note that this will probably not work if you already have a table named 'test' in your database, containing meaningful data. This is only an example showing you how to run queries in your database using SQLAlchemy.
 #
 with engine.connect() as conn:
-	create_table_command = """
-	CREATE TABLE IF NOT EXISTS book(
-		id author,
+    create_table_command = """
+	CREATE TABLE IF NOT EXISTS test (
+		id serial,
 		name text
 	)
 	"""
-	res = conn.execute(text(create_table_command))
-	insert_table_command = """INSERT INTO test(name) VALUES ('book1'), ('book2'), ('book3')"""
-	res = conn.execute(text(insert_table_command))
-	# you need to commit for create, insert, update queries to reflect
-	conn.commit()
+    res = conn.execute(text(create_table_command))
+    insert_table_command = """INSERT INTO test(name) VALUES ('grace hopper'), ('alan turing'), ('ada lovelace')"""
+    res = conn.execute(text(insert_table_command))
+    # you need to commit for create, insert, update queries to reflect
+    conn.commit()
 
 
 @app.before_request
