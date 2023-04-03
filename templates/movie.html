@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class = "jumbotron">
+    <div>{{data}}</div>
+
+    <div>
+        {% for n in data %}
+        <div><a href="another">{{n}}</a></div>
+        {% endfor %}
+    </div>
+
+    </div>
+{% endblock %}
