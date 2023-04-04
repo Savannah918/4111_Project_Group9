@@ -311,26 +311,35 @@ def signup():
 ## add reviews:
 
 # add review for a book
-@app.route('/add_review_book/<book_name>', methods=['POST'])
+@app.route('/add_review_book/<book_name>', methods=['GET', 'POST'])
 def add_review_book(book_name):
+    select_query = 'select user_id from users'
+    cursor = g.conn.execute(text(select_query))
+    userids = []
+    for result in cursor:
+        userids.append(result[0])
+    cursor.close()
     # accessing form inputs from user
     user_id = request.form['user-id']
-    book_id = request.form['book-id']
-    rating = request.form['rating']
-    review = request.form['review']
-    #book_name = request.form['book_name']
+    if user_id in userids:
+        book_id = request.form['book-id']
+        rating = request.form['rating']
+        review = request.form['review']
+        #book_name = request.form['book_name']
 
-    # passing params in for each variable into query
-    params = {}
-    params["user_id"] = user_id
-    params["book_id"] = book_id
-    params["rating"] = rating
-    params["review"] = review
+        # passing params in for each variable into query
+        params = {}
+        params["user_id"] = user_id
+        params["book_id"] = book_id
+        params["rating"] = rating
+        params["review"] = review
 
-    g.conn.execute(text('INSERT INTO rate_book (user_id, book_id, rating, review) VALUES (:user_id, :book_id, :rating, :review)'), params)
-    g.conn.commit()
+        g.conn.execute(text('INSERT INTO rate_book (user_id, book_id, rating, review) VALUES (:user_id, :book_id, :rating, :review)'), params)
+        g.conn.commit()
 
-    return redirect('/book/'+book_name)
+        return redirect('/book/'+book_name)
+    else:
+        return redirect('/signup')
 
 # add review for a movie
 @app.route('/add_review_movie/<movie_name>', methods=['POST'])
