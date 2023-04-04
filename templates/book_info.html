@@ -32,7 +32,7 @@
 
     <div>
     <strong>Add Review</strong>
-        <form action="/add_review_book" method="POST">
+        <form action="/add_review_book/{{ title }}" method="POST">
             <input type="hidden" name="book_id" value="{{ book_id }}">
             <input type="hidden" name="book_name" value="{{ title }}">
 

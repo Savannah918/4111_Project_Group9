@@ -311,14 +311,14 @@ def signup():
 ## add reviews:
 
 # add review for a book
-@app.route('/add_review_book', methods=['POST'])
-def add_review_book():
+@app.route('/add_review_book/<book_name>', methods=['POST'])
+def add_review_book(book_name):
     # accessing form inputs from user
     user_id = request.form['user-id']
     book_id = request.form['book-id']
     rating = request.form['rating']
     review = request.form['review']
-    book_name = request.form['book_name']
+    #book_name = request.form['book_name']
 
     # passing params in for each variable into query
     params = {}
@@ -333,14 +333,14 @@ def add_review_book():
     return redirect('/book/'+book_name)
 
 # add review for a movie
-@app.route('/add_review_movie', methods=['POST'])
-def add_review_movie():
+@app.route('/add_review_movie/<movie_name>', methods=['POST'])
+def add_review_movie(movie_name):
     # accessing form inputs from user
     user_id = request.form['user-id']
     movie_id = request.form['movie-id']
     rating = request.form['rating']
     review = request.form['review']
-    movie_name = request.form['movie_name']
+    #movie_name = request.form['movie_name']
 
     # passing params in for each variable into query
     params = {}
@@ -355,14 +355,14 @@ def add_review_movie():
     return redirect('/movie/' + movie_name)
 
 # add review for a song
-@app.route('/add_review_song', methods=['POST'])
-def add_review_song():
+@app.route('/add_review_song/<song_name>', methods=['POST'])
+def add_review_song(song_name):
     # accessing form inputs from user
     user_id = request.form['user-id']
     song_id = request.form['song-id']
     rating = request.form['rating']
     review = request.form['review']
-    song_name = request.form['song_name']
+    #song_name = request.form['song_name']
 
     # passing params in for each variable into query
     params = {}
