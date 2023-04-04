@@ -345,46 +345,66 @@ def add_review_book(book_name):
 @app.route('/add_review_movie/<movie_name>', methods=['POST'])
 def add_review_movie(movie_name):
     # accessing form inputs from user
+    select_query = 'select user_id from users'
+    cursor = g.conn.execute(text(select_query))
+    userids = []
+    for result in cursor:
+        userids.append(result[0])
+    cursor.close()
+    # accessing form inputs from user
     user_id = request.form['user-id']
-    movie_id = request.form['movie-id']
-    rating = request.form['rating']
-    review = request.form['review']
-    #movie_name = request.form['movie_name']
+    if user_id in userids:
+        movie_id = request.form['movie-id']
+        rating = request.form['rating']
+        review = request.form['review']
+        #movie_name = request.form['movie_name']
 
-    # passing params in for each variable into query
-    params = {}
-    params["user_id"] = user_id
-    params["movie_id"] = movie_id
-    params["rating"] = rating
-    params["review"] = review
+        # passing params in for each variable into query
+        params = {}
+        params["user_id"] = user_id
+        params["movie_id"] = movie_id
+        params["rating"] = rating
+        params["review"] = review
 
-    g.conn.execute(text('INSERT INTO rate_movie (user_id, movie_id, rating, review) VALUES (:user_id, :movie_id, :rating, :review)'), params)
-    g.conn.commit()
+        g.conn.execute(text('INSERT INTO rate_movie (user_id, movie_id, rating, review) VALUES (:user_id, :movie_id, :rating, :review)'), params)
+        g.conn.commit()
 
-    return redirect('/movie/' + movie_name)
+        return redirect('/movie/' + movie_name)
+    else:
+        return redirect('/signup')
 
 # add review for a song
 @app.route('/add_review_song/<song_name>', methods=['POST'])
 def add_review_song(song_name):
     # accessing form inputs from user
+    select_query = 'select user_id from users'
+    cursor = g.conn.execute(text(select_query))
+    userids = []
+    for result in cursor:
+        userids.append(result[0])
+    cursor.close()
+    # accessing form inputs from user
     user_id = request.form['user-id']
-    song_id = request.form['song-id']
-    rating = request.form['rating']
-    review = request.form['review']
-    #song_name = request.form['song_name']
+    if user_id in userids:
 
-    # passing params in for each variable into query
-    params = {}
-    params["user_id"] = user_id
-    params["song_id"] = song_id
-    params["rating"] = rating
-    params["review"] = review
+        song_id = request.form['song-id']
+        rating = request.form['rating']
+        review = request.form['review']
+        #song_name = request.form['song_name']
 
-    g.conn.execute(text('INSERT INTO rate_song (user_id, song_id, rating, review) VALUES (:user_id, :song_id, :rating, :review)'), params)
-    g.conn.commit()
+        # passing params in for each variable into query
+        params = {}
+        params["user_id"] = user_id
+        params["song_id"] = song_id
+        params["rating"] = rating
+        params["review"] = review
 
-    return redirect('/song/' + song_name)
+        g.conn.execute(text('INSERT INTO rate_song (user_id, song_id, rating, review) VALUES (:user_id, :song_id, :rating, :review)'), params)
+        g.conn.commit()
 
+        return redirect('/song/' + song_name)
+    else:
+        return redirect('/signup')
 
 @app.route('/login')
 def login():
