@@ -292,7 +292,7 @@ def add():
 
 @app.route('/signup')
 def signup():
-    return redirect('/')
+    return render_template("sign_up.html")
 
 
 @app.route('/login')
