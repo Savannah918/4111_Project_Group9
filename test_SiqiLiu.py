@@ -290,6 +290,10 @@ def add():
     g.conn.commit()
     return redirect('/')
 
+@app.route('/signup',methods = ['POST'])
+def signup():
+    return redirect('/')
+
 
 @app.route('/login')
 def login():
