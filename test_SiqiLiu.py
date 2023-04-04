@@ -211,6 +211,7 @@ def book_info(book_name):
 
     # render template with book information
     context = dict(
+        book_id = book_info[0],
         title=book_info[1],
         author=book_info[2],
         genre=book_info[3],
@@ -305,6 +306,76 @@ def add():
 @app.route('/signup')
 def signup():
     return render_template("signup.html")
+
+
+## add reviews:
+
+# add review for a book
+@app.route('/add_review_book', methods=['POST'])
+def add_review_book():
+    # accessing form inputs from user
+    user_id = request.form['user-id']
+    book_id = request.form['book-id']
+    rating = request.form['rating']
+    review = request.form['review']
+    book_name = request.form['book_name']
+
+    # passing params in for each variable into query
+    params = {}
+    params["user_id"] = user_id
+    params["book_id"] = book_id
+    params["rating"] = rating
+    params["review"] = review
+
+    g.conn.execute(text('INSERT INTO rate_book (user_id, book_id, rating, review) VALUES (:user_id, :book_id, :rating, :review)'), params)
+    g.conn.commit()
+
+    return redirect('/book/'+book_name)
+
+# add review for a movie
+@app.route('/add_review_movie', methods=['POST'])
+def add_review_movie():
+    # accessing form inputs from user
+    user_id = request.form['user-id']
+    movie_id = request.form['movie-id']
+    rating = request.form['rating']
+    review = request.form['review']
+    movie_name = request.form['movie_name']
+
+    # passing params in for each variable into query
+    params = {}
+    params["user_id"] = user_id
+    params["movie_id"] = movie_id
+    params["rating"] = rating
+    params["review"] = review
+
+    g.conn.execute(text('INSERT INTO rate_movie (user_id, movie_id, rating, review) VALUES (:user_id, :movie_id, :rating, :review)'), params)
+    g.conn.commit()
+
+    return redirect('/movie/' + movie_name)
+
+# add review for a song
+@app.route('/add_review_song', methods=['POST'])
+def add_review_song():
+    # accessing form inputs from user
+    user_id = request.form['user-id']
+    song_id = request.form['song-id']
+    rating = request.form['rating']
+    review = request.form['review']
+    song_name = request.form['song_name']
+
+    # passing params in for each variable into query
+    params = {}
+    params["user_id"] = user_id
+    params["song_id"] = song_id
+    params["rating"] = rating
+    params["review"] = review
+
+    g.conn.execute(text('INSERT INTO rate_song (user_id, song_id, rating, review) VALUES (:user_id, :song_id, :rating, :review)'), params)
+    g.conn.commit()
+
+    return redirect('/song/' + song_name)
+
 
 @app.route('/login')
 def login():

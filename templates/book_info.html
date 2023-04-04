@@ -32,8 +32,9 @@
 
     <div>
     <strong>Add Review</strong>
-        <form action="/add_review_book" method="post">
-            <input type="hidden" name="book_title" value="{{ title }}">
+        <form action="/add_review_book" method="POST">
+            <input type="hidden" name="book_id" value="{{ book_id }}">
+            <input type="hidden" name="book_name" value="{{ title }}">
 
             <label for="user_id">User ID:</label>
             <input type="text" name="user_id">
