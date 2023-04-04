@@ -135,10 +135,17 @@ def movie_info(movie_name):
     cursor.close()
 
     # get appeared songs:
-
-
+    select_query = "select song_name from movie left outer join appear using (movie_id) left outer join song using (song_id) where movie_name =:name"
+    cursor = g.conn.execute(text(select_query), {"name": movie_name})
+    appeared_songs = cursor.fetchall()
+    cursor.close()
 
     # get adapted books:
+    select_query = "select title from movie left outer join adapt using (movie_id) left outer join book using (book_id) where movie_name =:name"
+    cursor = g.conn.execute(text(select_query), {"name": movie_name})
+    adapted_books = cursor.fetchall()
+    cursor.close()
+
 
     context = dict(
         movie_id = movie_info[0],
@@ -147,7 +154,9 @@ def movie_info(movie_name):
         actor = movie_info[3],
         genre = movie_info[4],
         released_year = movie_info[5],
-        reviews = reviews
+        reviews = reviews,
+        songs = appeared_songs,
+        books = adapted_books
     )
 
     return render_template("movie_info.html", **context)

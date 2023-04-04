@@ -4,7 +4,7 @@
 
     {# get basic info #}
     <div class = "jumbotron">
-        <div><strong>Movie Name: {{ title }}</strong></div>
+        <div><strong>Movie Name: {{ movie_name }}</strong></div>
         <div>Director: {{ director }}</div>
         <div>Actors: {{ actor }}</div>
         <div>Genre: {{ genre }}</div>
@@ -31,10 +31,36 @@
     </div>
     {% endif %}
 
+    <br>
+
     {# get appeared songs #}
+    {% if songs|length > 0 %}
+        <div class = "jumbotron">
+        <strong>Related Songs</strong>
+        {% for s in songs %}
+            <br>
+            <div>
+            <a href = "song/{{ s }}">{{ s }}</a>
+            </div>
+        {% endfor %}
+        </div>
 
+    {% endif %}
 
+    <br>
     {# get book adapated #}
+    {% if books|length > 0 %}
+        <div class = "jumbotron">
+        <strong>Related Book</strong>
+        {% for b in books %}
+            <br>
+            <div>
+            <a href = "book/{{ b }}">{{ b }}</a>
+            </div>
+        {% endfor %}
+        </div>
+
+    {% endif %}
 
 
 
