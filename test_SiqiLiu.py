@@ -131,7 +131,7 @@ def movie_info(movie_name):
     # get rating
     select_query = "select user_name, rating, review from movie left outer join rate_movie using (movie_id) left outer join users using (user_id) where movie_name = :name"
     cursor = g.conn.execute(text(select_query), {"name": movie_name})
-    reviews = cursor.fetchone()
+    reviews = cursor.fetchall()
     cursor.close()
 
     # get appeared songs:
