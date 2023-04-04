@@ -323,4 +323,4 @@ if __name__ == "__main__":
         print("running on %s:%d" % (HOST, PORT))
         app.run(host=HOST, port=PORT, debug=debug, threaded=threaded)
 
-run()
+run(debug= True)
