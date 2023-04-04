@@ -139,7 +139,8 @@ def movie_info(movie_name):
     cursor = g.conn.execute(text(select_query), {"name": movie_name})
     appeared_songs = []
     for result in cursor:
-        appeared_songs.append(result[0])
+        if result[0]:
+            appeared_songs.append(result[0])
     cursor.close()
 
 
@@ -148,7 +149,8 @@ def movie_info(movie_name):
     cursor = g.conn.execute(text(select_query), {"name": movie_name})
     adapted_books = []
     for result in cursor:
-        adapted_books.append(result[0])
+        if result[0]:
+            adapted_books.append(result[0])
     cursor.close()
 
 
