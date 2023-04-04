@@ -13,10 +13,10 @@
     <br>
 
     {# get reviews #}
-
+    <div class = "jumbotron">
     {% if reviews|length > 0 %}
 
-    <div class = "jumbotron">
+    <div>
     <strong>Reviews</strong>
 
     {% for r in reviews %}
@@ -26,6 +26,12 @@
             <p>{{ r[2] }}</p>
         </div>
     {% endfor %}
+
+    </div>
+    {% endif %}
+
+    <div>
+    <strong>Add Reviews</strong>
     <form method="POST" action="/add_review_song/{{ song_name }}">
         <label for="user-id">User ID:</label>
         <input type="text" name="user-id" required>
@@ -42,10 +48,8 @@
         <input type="hidden" name="song-name" value="{{ song_name }}">
         <input type="submit" value="Add Review">
       </form>
-
     </div>
-    {% endif %}
-
+    </div>
     <br>
 
     {# get movies #}
