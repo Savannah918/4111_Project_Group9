@@ -13,10 +13,10 @@
     </div>
 
     {# get reviews #}
-
+    <div class = "jumbotron">
     {% if reviews|length > 0 %}
 
-    <div class = "jumbotron">
+    <div>
     <strong>Reviews</strong>
 
     {% for r in reviews %}
@@ -26,20 +26,29 @@
             <p>{{ r[2] }}</p>
         </div>
     {% endfor %}
-    <h4>Add Review</h4>
-        <form action="/add_review_book" method="post">
-            <input type="hidden" name="book_title" value="{{ title }}">
-            <label for="user_id">User ID:</label>
-            <input type="text" name="user_id"><br>
-            <label for="rating">Rating:</label>
-            <input type="number" name="rating" min="1" max="5"><br>
-            <label for="review">Review:</label><br>
-            <textarea name="review" rows="5" cols="50"></textarea><br>
-            <input type="submit" value="Add Review">
-        </form>
 
     </div>
     {% endif %}
+
+    <div>
+    <strong>Add Review</strong>
+        <form action="/add_review_book" method="post">
+            <input type="hidden" name="book_title" value="{{ title }}">
+
+            <label for="user_id">User ID:</label>
+            <input type="text" name="user_id">
+
+            <label for="rating">Rating:</label>
+            <input type="number" name="rating" min="1" max="5">
+
+            <br>
+
+            <label for="review">Review:</label>
+            <textarea name="review" rows="5" cols="50"></textarea><br>
+            <input type="submit" value="Add Review">
+        </form>
+    </div>
+    </div>
 
     <br>
     {# get movies adapated #}
