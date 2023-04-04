@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div class = "jumbotron">
+
+    <h4>Welcome to the sign up page!</h4>
+    <br>
+    <form action = '/sumbit' method = 'POST' >
+        <label for="user-id">User ID:</label>
+        <input type = "text" name = "user-id">
+
+        <label for = "user-name">Name:</label>
+        <input type = "text" name = "user-name">
+
+        <label for = "email">Email:</label>
+        <input type = "text" name = "email">
+
+        <label for = "age">Email:</label>
+        <input type = "number" name = "age">
+
+        <label for = "sex">Email:</label>
+        <input type = "text" name = "sex">
+
+        <label for = "social-identity">Email:</label>
+        <input type = "text" name = "social-identity">
+
+        <input type = "submit" value = "Sign Up">
+    </form>
+</div>
+{% endblock %}
