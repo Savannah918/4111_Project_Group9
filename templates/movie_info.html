@@ -34,7 +34,8 @@
     <br>
 
     {# get appeared songs #}
-    {% if songs|length > 0 %}
+    <div>{{ songs }}</div>
+    {% if songs|length > 0%}
         <div class = "jumbotron">
         <strong>Related Songs</strong>
         {% for s in songs %}
@@ -48,8 +49,9 @@
     {% endif %}
 
     <br>
+    <div>{{ books }}</div>
     {# get book adapated #}
-    {% if books|length > 0 %}
+    {% if books|length > 0 and b%}
         <div class = "jumbotron">
         <strong>Related Book</strong>
         {% for b in books %}
