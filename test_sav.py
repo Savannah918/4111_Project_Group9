@@ -199,7 +199,7 @@ def book_info(book_name):
 
 
     # get rating
-    select_query = "select user_name, rating, review from book left outer join rate_book using (book_id) left outer join users using (user_id) where title = :name"
+    select_query = "select user_name, rating, review from rate_book left outer join book using (book_id) left outer join users using (user_id) where title = :name"
     cursor = g.conn.execute(text(select_query), {"name": book_name})
     reviews = cursor.fetchall()
     cursor.close()
@@ -223,7 +223,7 @@ def book_info(book_name):
         edition = book_info[6],
         page_range = book_info[7],
         reviews = reviews,
-        moviess = adapted_movies
+        movies = adapted_movies
     )
 
     return render_template("book_info.html", **context)

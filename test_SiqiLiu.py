@@ -129,13 +129,13 @@ def movie_info(movie_name):
         return "Movie not found"
 
     # get rating
-    select_query = "select user_name, rating, review from movie left outer join rate_movie using (movie_id) left outer join users using (user_id) where movie_name = :name"
+    select_query = "select user_name, rating, review from rate_movie left outer join movie using (movie_id) left outer join users using (user_id) where movie_name = :name"
     cursor = g.conn.execute(text(select_query), {"name": movie_name})
     reviews = cursor.fetchall()
     cursor.close()
 
     # get appeared songs:
-    select_query = "select song_name from movie left outer join appear using (movie_id) left outer join song using (song_id) where movie_name =:name"
+    select_query = "select song_name from appear left outer join movie using (movie_id) left outer join song using (song_id) where movie_name =:name"
     cursor = g.conn.execute(text(select_query), {"name": movie_name})
     appeared_songs = []
     for result in cursor:
@@ -145,7 +145,7 @@ def movie_info(movie_name):
 
 
     # get adapted books:
-    select_query = "select title from movie left outer join adapt using (movie_id) left outer join book using (book_id) where movie_name =:name"
+    select_query = "select title from adapt left outer join movie using (movie_id) left outer join book using (book_id) where movie_name =:name"
     cursor = g.conn.execute(text(select_query), {"name": movie_name})
     adapted_books = []
     for result in cursor:
@@ -195,9 +195,18 @@ def book_info(book_name):
         return "Book not found"
 
     # get rating
-    select_query = "select user_name, rating, review from book left outer join rate_book using (book_id) left outer join users using (user_id) where title = :name"
+    select_query = "select user_name, rating, review from rate_book left outer join book using (book_id) left outer join users using (user_id) where title = :name"
     cursor = g.conn.execute(text(select_query), {"name": book_name})
     reviews = cursor.fetchall()
+    cursor.close()
+
+    # get movies adapted from
+    select_query = "select movie_name from adapt left outer join book using (book_id) left outer join movie using (movie_id) where book_name =:name"
+    cursor = g.conn.execute(text(select_query), {"name": book_name})
+    adapted_movies = []
+    for result in cursor:
+        if result[0]:
+            adapted_movies.append(result[0])
     cursor.close()
 
     # render template with book information
@@ -207,9 +216,10 @@ def book_info(book_name):
         genre=book_info[3],
         year=book_info[4],
         press=book_info[5],
-        edition = book_info[6],
-        page_range = book_info[7],
-        reviews = reviews
+        edition=book_info[6],
+        page_range=book_info[7],
+        reviews=reviews,
+        movies=adapted_movies
     )
 
     return render_template("book_info.html", **context)
@@ -240,16 +250,19 @@ def song_info(song_name):
         return "Song not found"
 
     # get rating
-    select_query = "select user_name, rating, review from song left outer join rate_song using (song_id) left outer join users using (user_id) where song_name = :name"
+    select_query = "select user_name, rating, review from rate_song left outer join song using (song_id) left outer join users using (user_id) where song_name = :name"
     cursor = g.conn.execute(text(select_query), {"name": song_name})
     reviews = cursor.fetchall()
     cursor.close()
 
-    # get appeared songs:
+    # get related movies:
+    select_query = 'select movie_name from appear left outer join song using(song_id) left outer join movie using (movie_id) where song_name = :name'
+    cursor = g.conn.execute(text(select_query), {"name": song_name})
+    movies = []
+    for result in cursor:
+        movies.append(result[0])
+    cursor.close()
 
-
-
-    # get adapted books:
 
     context = dict(
         song_id = song_info[0],
@@ -257,7 +270,8 @@ def song_info(song_name):
         genre = song_info[2],
         release_year = song_info[3],
         song_name = song_info[4],
-        reviews = reviews
+        reviews = reviews,
+        movies = movies
     )
 
     return render_template("song_info.html", **context)
