@@ -116,6 +116,42 @@ def movie():
 
     return render_template("movie.html", **context)
 
+@app.route('/movie/<movie_name>', methods = ['GET'])
+def movie_info(movie_name):
+    # get info
+    select_query = "SELECT * from movie where movie_name = :name"
+    cursor = g.conn.execute(text(select_query), {"name": movie_name})
+    movie_info = cursor.fetchone()
+    cursor.close()
+
+    # check
+    if not movie_info:
+        return "Movie not found"
+
+    # get rating
+    select_query = "select user_name, rating, review from movie left outer join rate_movie using (movie_id) left outer join users using (user_id) where movie_name = :name"
+    cursor = g.conn.execute(text(select_query), {"name": movie_name})
+    reviews = cursor.fetchone()
+    cursor.close()
+
+    # get appeared songs:
+
+
+
+    # get adapted books:
+
+    context = dict(
+        movie_id = movie_info[0],
+        movie_name = movie_info[1],
+        director = movie_info[2],
+        actor = movie_info[3],
+        genre = movie_info[4],
+        released_year = movie_info[5],
+        reviews = reviews
+    )
+
+    return render_template("movie_info.html", **context)
+
 
 # Example of adding new data to the database
 @app.route('/add', methods=['POST'])
