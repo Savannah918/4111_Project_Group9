@@ -29,5 +29,20 @@
     </div>
     {% endif %}
 
+    <br>
+    {# get movies adapated #}
+    {% if movies|length > 0 %}
+        <div class = "jumbotron">
+        <strong>Related Movies</strong>
+        {% for m in movies %}
+            <br>
+            <div>
+            <a href = "/movie/{{ m }}">{{ m }}</a>
+            </div>
+        {% endfor %}
+        </div>
+
+    {% endif %}
+
 
 {% endblock %}

@@ -174,7 +174,7 @@ def another():
 @app.route('/book', methods=['GET'])
 def book():
     # Query the database for the book names
-    select_query = "SELECT title from books"
+    select_query = "SELECT title from book"
     cursor = g.conn.execute(text(select_query))
     book_names = []
     for result in cursor:
@@ -204,6 +204,15 @@ def book_info(book_name):
     reviews = cursor.fetchall()
     cursor.close()
 
+    # get movies adapted from
+    select_query = "select movie_name from adapt left outer join book using (book_id) left outer join movie using (movie_id) where book_name =:name"
+    cursor = g.conn.execute(text(select_query), {"name": book_name})
+    adapted_movies = []
+    for result in cursor:
+        if result[0]:
+            adapted_movies.append(result[0])
+    cursor.close()
+
     # render template with book information
     context = dict(
         title=book_info[1],
@@ -213,7 +222,8 @@ def book_info(book_name):
         press=book_info[5],
         edition = book_info[6],
         page_range = book_info[7],
-        reviews = reviews
+        reviews = reviews,
+        moviess = adapted_movies
     )
 
     return render_template("book_info.html", **context)
@@ -246,7 +256,7 @@ def movie_info(movie_name):
     reviews = cursor.fetchall()
     cursor.close()
 
-    # get appeared songs:
+    # get appeared :
 
 
 
@@ -265,7 +275,7 @@ def movie_info(movie_name):
     return render_template("movie_info.html", **context)
 @app.route('/song', methods=['GET'])
 def song():
-    select_query = "SELECT song_name from movie"
+    select_query = "SELECT song_name from song"
     cursor = g.conn.execute(text(select_query))
     names = []
     for result in cursor:
