@@ -280,14 +280,26 @@ def song_info(song_name):
 # Example of adding new data to the database
 @app.route('/add', methods=['POST'])
 def add():
-    # accessing form inputs from user
-    name = request.form['name']
+    # accessing form inputs fromuser
+    user_id = request.form['user-id']
+    user_name = request.form['user-name']
+    email = request.form['email']
+    age = request.form['age']
+    sex = request.form['sex']
+    social_identity = request.form['social-identity']
 
-    # passing params in for each variable into query
+    # passing params in for eachvariable into query
     params = {}
-    params["new_name"] = name
-    g.conn.execute(text('INSERT INTO test(name) VALUES (:new_name)'), params)
+    params["user_id"] = user_id
+    params["user_name"] = user_name
+    params["email"] = email
+    params["age"] = age
+    params["sex"] = sex
+    params["social_identity"] = social_identity
+
+    g.conn.execute(text('INSERT INTO users (user_id, user_name, email, age, sex, social_identity) VALUES (:user_id, :user_name, :email, :age, :sex, :social_identity)'), params)
     g.conn.commit()
+
     return redirect('/')
 
 @app.route('/signup')

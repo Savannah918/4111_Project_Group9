@@ -6,24 +6,27 @@
 
     <h4>Welcome to the sign up page!</h4>
     <br>
-    <form action = '/signup'>
+    <form action = '/add' method = 'POST'>
         <label for="user-id">User ID:</label>
-        <input type = "text" name = "user-id">
+        <input type = "text" name = "user-id" maxlength="5" required>
 
         <label for = "user-name">Name:</label>
-        <input type = "text" name = "user-name">
+        <input type = "text" name = "user-name" maxlength="20" required>
 
         <label for = "email">Email:</label>
-        <input type = "text" name = "email">
+        <input type = "text" name = "email" maxlength="50">
 
         <label for = "age">Age:</label>
-        <input type = "number" name = "age">
+        <input type = "number" name = "age" min="7" max ="120">
 
         <label for = "sex">Sex:</label>
-        <input type = "text" name = "sex">
+        <select name="sex">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
 
         <label for = "social-identity">Social Identity:</label>
-        <input type = "text" name = "social-identity">
+        <input type = "text" name = "social-identity", maxlength="20">
 
         <input type = "submit" value = "Sign Up">
     </form>
