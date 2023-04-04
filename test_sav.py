@@ -171,8 +171,8 @@ def index():
 def another():
     return render_template("another.html")
 
-@app.route('/books', methods=['GET'])
-def books():
+@app.route('/book', methods=['GET'])
+def book():
     # Query the database for the book names
     select_query = "SELECT title from books"
     cursor = g.conn.execute(text(select_query))
@@ -183,8 +183,40 @@ def books():
 
     # Render the HTML template with the book names
     context = dict(data=book_names)
-    return render_template('books.html', **context)
+    return render_template('book.html', **context)
 
+@app.route('/book/<book_name>')
+def book_info(book_name):
+    # query the database for information about the book
+    select_query = "SELECT * from book WHERE title = :name"
+    cursor = g.conn.execute(text(select_query), {"name": book_name})
+    book_info = cursor.fetchone()
+    cursor.close()
+
+    # check if book exists in database
+    if book_info is None:
+        return "Book not found"
+
+
+    # get rating
+    select_query = "select user_name, rating, review from book left outer join rate_book using (book_id) left outer join users using (user_id) where title = :name"
+    cursor = g.conn.execute(text(select_query), {"name": book_name})
+    reviews = cursor.fetchall()
+    cursor.close()
+
+    # render template with book information
+    context = dict(
+        title=book_info[1],
+        author=book_info[2],
+        genre=book_info[3],
+        year=book_info[4],
+        press=book_info[5],
+        edition = book_info[6],
+        page_range = book_info[7],
+        reviews = reviews
+    )
+
+    return render_template("book_info.html", **context)
 @app.route('/movie',methods = ['GET'])
 def movie():
     select_query = "SELECT movie_name from movie"
@@ -196,6 +228,41 @@ def movie():
 
     context = dict(data=names)
 
+@app.route('/movie/<movie_name>', methods = ['GET'])
+def movie_info(movie_name):
+    # get info
+    select_query = "SELECT * from movie where movie_name = :name"
+    cursor = g.conn.execute(text(select_query), {"name": movie_name})
+    movie_info = cursor.fetchone()
+    cursor.close()
+
+    # check movie
+    if not movie_info:
+        return "Movie not found"
+
+    # get rating
+    select_query = "select user_name, rating, review from movie left outer join rate_movie using (movie_id) left outer join users using (user_id) where movie_name = :name"
+    cursor = g.conn.execute(text(select_query), {"name": movie_name})
+    reviews = cursor.fetchall()
+    cursor.close()
+
+    # get appeared songs:
+
+
+
+    # get adapted books:
+
+    context = dict(
+        movie_id = movie_info[0],
+        movie_name = movie_info[1],
+        director = movie_info[2],
+        actor = movie_info[3],
+        genre = movie_info[4],
+        released_year = movie_info[5],
+        reviews = reviews
+    )
+
+    return render_template("movie_info.html", **context)
 @app.route('/song', methods=['GET'])
 def song():
     select_query = "SELECT song_name from movie"
@@ -208,6 +275,41 @@ def song():
     context = dict(data=names)
 
     return render_template("song.html", **context)
+
+@app.route('/song/<song_name>', methods = ['GET'])
+def song_info(song_name):
+    # get info
+    select_query = "SELECT * from song where song_name = :name"
+    cursor = g.conn.execute(text(select_query), {"name": song_name})
+    song_info = cursor.fetchone()
+    cursor.close()
+
+    # check movie
+    if not song_info:
+        return "Song not found"
+
+    # get rating
+    select_query = "select user_name, rating, review from song left outer join rate_song using (song_id) left outer join users using (user_id) where song_name = :name"
+    cursor = g.conn.execute(text(select_query), {"name": song_name})
+    reviews = cursor.fetchall()
+    cursor.close()
+
+    # get appeared songs:
+
+
+
+    # get adapted books:
+
+    context = dict(
+        song_id = song_info[0],
+        singer = song_info[1],
+        genre = song_info[2],
+        release_year = song_info[3],
+        song_name = song_info[4],
+        reviews = reviews
+    )
+
+    return render_template("song_info.html", **context)
 
 # Example of adding new data to the database
 # @app.route('/add', methods=['POST'])

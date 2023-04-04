@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class = "jumbotron">
+
+          <div><strong>Author:</strong> {{author}}</div>
+          <div>Genre: {{genre}}</div>
+          <div>Year: {{year}}</div>
+          <div>Press: {{press}}</div>
+          <div>Edition: {{edition}}</div>
+          <div>Page Range: {{page_range}}</div>
+    </div>
+
+    {# get reviews #}
+
+    {% if reviews|length > 0 %}
+
+    <div class = "jumbotron">
+    <strong>Reviews</strong>
+
+    {% for r in reviews %}
+        <br>
+        <div>
+            <p>{{ r[0] }} | rating: {{ r[1] }}</p>
+            <p>{{ r[2] }}</p>
+        </div>
+    {% endfor %}
+
+    </div>
+    {% endif %}
+
+
+{% endblock %}
