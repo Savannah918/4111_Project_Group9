@@ -201,7 +201,7 @@ def book_info(book_name):
     cursor.close()
 
     # get movies adapted from
-    select_query = "select movie_name from adapt left outer join book using (book_id) left outer join movie using (movie_id) where book_name =:name"
+    select_query = "select movie_name from adapt left outer join book using (book_id) left outer join movie using (movie_id) where title =:name"
     cursor = g.conn.execute(text(select_query), {"name": book_name})
     adapted_movies = []
     for result in cursor:
@@ -268,7 +268,7 @@ def song_info(song_name):
         song_id = song_info[0],
         singer = song_info[1],
         genre = song_info[2],
-        release_year = song_info[3],
+        released_year = song_info[3],
         song_name = song_info[4],
         reviews = reviews,
         movies = movies
